@@ -92,6 +92,12 @@ const createUsernames = function (accs) {
 };
 createUsernames(accounts);
 
+const calcDisplayBalance = function (movements) {
+  const balance = movements.reduce((accu, mov) => accu + mov, 0);
+  labelBalance.textContent = `${balance} EUR`;
+};
+calcDisplayBalance(account1.movements);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
