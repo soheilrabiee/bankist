@@ -79,7 +79,30 @@ const displayMovements = function (movements) {
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 };
-displayMovements(account1.movements);
+
+const calcDisplayBalance = function (movements) {
+  const balance = movements.reduce((accu, mov) => accu + mov, 0);
+  labelBalance.textContent = `${balance}€`;
+};
+
+const calcDisplaySummary = function (acc) {
+  const incomes = acc.movements
+    .filter(mov => mov > 0)
+    .reduce((accu, mov) => accu + mov, 0);
+  labelSumIn.textContent = `${incomes}€`;
+
+  const out = acc.movements
+    .filter(mov => mov < 0)
+    .reduce((accu, mov) => accu + mov, 0);
+  labelSumOut.textContent = `${Math.abs(out)}€`;
+
+  const interest = acc.movements
+    .filter(mov => mov > 0)
+    .map(deposit => (deposit * acc.interestRate) / 100)
+    .filter(int => int >= 1)
+    .reduce((accu, int) => accu + int, 0);
+  labelSumInterest.textContent = `${interest}€`;
+};
 
 const createUsernames = function (accs) {
   accs.forEach(acc => {
@@ -91,32 +114,6 @@ const createUsernames = function (accs) {
   });
 };
 createUsernames(accounts);
-
-const calcDisplayBalance = function (movements) {
-  const balance = movements.reduce((accu, mov) => accu + mov, 0);
-  labelBalance.textContent = `${balance}€`;
-};
-calcDisplayBalance(account1.movements);
-
-const calcDisplaySummary = function (movements) {
-  const incomes = movements
-    .filter(mov => mov > 0)
-    .reduce((accu, mov) => accu + mov, 0);
-  labelSumIn.textContent = `${incomes}€`;
-
-  const out = movements
-    .filter(mov => mov < 0)
-    .reduce((accu, mov) => accu + mov, 0);
-  labelSumOut.textContent = `${Math.abs(out)}€`;
-
-  const interest = movements
-    .filter(mov => mov > 0)
-    .map(deposit => (deposit * 1.2) / 100)
-    .filter(int => int >= 1)
-    .reduce((accu, int) => accu + int, 0);
-  labelSumInterest.textContent = `${interest}€`;
-};
-calcDisplaySummary(account1.movements);
 
 // Event handler
 let currentAccount;
@@ -134,6 +131,13 @@ btnLogin.addEventListener('click', e => {
       .split(' ')
       .at(0)}`;
     containerApp.style.opacity = 1;
+
+    inputLoginUsername.value = inputLoginPin.value = '';
+    inputLoginPin.blur();
+
+    displayMovements(currentAccount.movements);
+    calcDisplayBalance(currentAccount.movements);
+    calcDisplaySummary(currentAccount);
   }
 });
 
