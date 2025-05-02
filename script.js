@@ -106,8 +106,15 @@ const calcDisplaySummary = function (movements) {
 
   const out = movements
     .filter(mov => mov < 0)
-    .reduce((accu, mov) => accu + Math.abs(mov), 0);
-  labelSumOut.textContent = `${out}€`;
+    .reduce((accu, mov) => accu + mov, 0);
+  labelSumOut.textContent = `${Math.abs(out)}€`;
+
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(deposit => (deposit * 1.2) / 100)
+    .filter(int => int >= 1)
+    .reduce((accu, int) => accu + int, 0);
+  labelSumInterest.textContent = `${interest}€`;
 };
 calcDisplaySummary(account1.movements);
 /////////////////////////////////////////////////
