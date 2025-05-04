@@ -261,14 +261,16 @@ btnLoan.addEventListener('click', e => {
   const amount = Math.floor(inputLoanAmount.value);
 
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
-    currentAccount.movements.push(amount);
+    setTimeout(() => {
+      currentAccount.movements.push(amount);
 
-    // Add loan date
-    currentAccount.movementsDates.push(new Date().toISOString());
+      // Add loan date
+      currentAccount.movementsDates.push(new Date().toISOString());
 
-    updateUI(currentAccount);
+      updateUI(currentAccount);
 
-    inputLoanAmount.value = '';
+      inputLoanAmount.value = '';
+    }, 2500);
   }
 });
 
@@ -301,18 +303,3 @@ btnSort.addEventListener('click', e => {
 });
 
 /////////////////////////////////////////////////
-const num = 3884764.23;
-
-const options = {
-  style: 'currency',
-  unit: 'mile-per-hour',
-  currency: 'EUR',
-};
-
-console.log('US: ', new Intl.NumberFormat('en-US', options).format(num));
-console.log('Germany: ', new Intl.NumberFormat('de-DE', options).format(num));
-console.log('Syria: ', new Intl.NumberFormat('ar-SY', options).format(num));
-console.log(
-  'Browser: ',
-  new Intl.NumberFormat(navigator.language, options).format(num)
-);
