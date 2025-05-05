@@ -63,10 +63,12 @@ const section1 = document.querySelector('#section--1');
 btnScrollTo.addEventListener('click', function (e) {
   const s1cords = section1.getBoundingClientRect();
 
-  // Scrolling
+  // Scrolling (old-school)
   window.scrollTo({
     left: s1cords.left + window.scrollX,
     top: s1cords.top + window.scrollY,
     behavior: 'smooth',
   });
+  // Modern
+  section1.scrollIntoView({ behavior: 'smooth' });
 });
