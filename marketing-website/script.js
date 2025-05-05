@@ -55,3 +55,18 @@ document.addEventListener('keydown', function (e) {
 //   Number.parseFloat(getComputedStyle(message).height) + 30 + 'px';
 
 ///////////////////////////////////////
+// Smooth Scrolling
+
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
+
+btnScrollTo.addEventListener('click', function (e) {
+  const s1cords = section1.getBoundingClientRect();
+
+  // Scrolling
+  window.scrollTo({
+    left: s1cords.left + window.scrollX,
+    top: s1cords.top + window.scrollY,
+    behavior: 'smooth',
+  });
+});
